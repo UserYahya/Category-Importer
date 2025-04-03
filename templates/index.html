@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bangla Wikipedia Category Importer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      background: white;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button, .copy-btn {
+      padding: 12px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover, .copy-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      background-color: #f0f0f0;
+    }
+
+    .copy-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .copy-success {
+      color: green;
+      font-size: 14px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 20px;
+      }
+
+      input, button, .copy-btn {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      textarea {
+        font-size: 13px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>বাংলা উইকিপিডিয়া বিষয়শ্রেণী আমদানিকারক</h2>
+    <form method="POST">
+      <input type="text" name="page_title" placeholder="বাংলা উইকিপিডিয়া নিবন্ধের নাম লিখুন" required>
+      <button type="submit">বিষয়শ্রেণী আনুন</button>
+    </form>
+
+    {% if error_message %}
+      <div class="error">{{ error_message }}</div>
+    {% endif %}
+
+    {% if categories_markup %}
+      <h3 style="margin-top: 30px;">এগুলো কপি করে পাতায় যুক্ত করুন:</h3>
+      <textarea id="outputText" readonly rows="10">{{ categories_markup }}</textarea>
+
+      <div class="copy-section">
+        <button type="button" class="copy-btn" onclick="copyToClipboard()">কপি করুন</button>
+        <span id="copySuccess" class="copy-success">কপি হয়েছে!</span>
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    function copyToClipboard() {
+      var textArea = document.getElementById("outputText");
+      textArea.select();
+      textArea.setSelectionRange(0, 99999); // For mobile
+      document.execCommand("copy");
+
+      var successMsg = document.getElementById("copySuccess");
+      successMsg.style.display = "inline";
+      setTimeout(() => { successMsg.style.display = "none"; }, 2000);
+    }
+  </script>
+</body>
+</html>
