@@ -18,7 +18,7 @@ A simple web tool that helps import relevant categories from an English Wikipedi
 
 ## Demo
 
-Coming soon...
+- https://useryahya.pythonanywhere.com
 
 ---
 
